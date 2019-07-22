@@ -21,3 +21,7 @@ settings.ini - конфигурационный файл от yota-toggler-new
 name="offerCode" value="POS-MA2-00**". Другое поведение интерпретируется как ошибка.
 
 curl_yota_0016.cmd и curl_yota_0003.cmd пишут только в tariff.log. Отсутствие в логе строки name="offerCode" value="POS-MA2-00**" интерпретируется как ошибка.
+
+Для виндовых скриптов требуется: 
+curl.exe https://curl.haxx.se/windows/
+grep.exe http://gnuwin32.sourceforge.net/packages/grep.htm
