@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIRNAME=$(dirname $0)
+COOKIE_PATH="$DIRNAME/cookie.jar"
+CURL_CMD="curl --location --silent --cookie $COOKIE_PATH --cookie-jar $COOKIE_PATH"
+
+source "$DIRNAME/settings.ini"
+
+[[ $1 = "min" ]] && OFFER="$OFFER_MIN" || OFFER="$OFFER_NORM"
+
+# # #
+
+productId=$($CURL_CMD\
+    -d "IDToken1=$LOGIN"\
+    -d "IDToken2=$PASSWORD"\
+    -d "goto=https://my.yota.ru/selfcare/loginSuccess"\
+    -d "org=customer"\
+    https://login.yota.ru/UI/Login > /dev/null  | grep -Eo 'name="product" value="[0-9]+"' | grep -Eo '[0-9]+')
+
+[[ -z $productId ]] && echo "can't get productId!" && exit 1
+
+echo $CURL_CMD
+
+# TODO: connection confirmation
+isOfferChanged=$($CURL_CMD\
+    -d "product=$productId"\
+    -d "offerCode=$OFFER"\
+    -d "areOffersAvailable=false"\
+    -d "status=custom"\
+    -d "isSlot=false"\
+    -d "currentDevice=1"\
+    -d "isDisablingAutoprolong=false"\
+    https://my.yota.ru/selfcare/devices/changeOffer | grep -Eo 'name="offerCode" value="[a-z,A-Z,0-9\-]+"')
+
+[[ -z $isOfferChanged ]] && echo "cannot change tariff!" && exit 2
