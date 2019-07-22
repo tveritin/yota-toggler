@@ -10,8 +10,8 @@ cookies = {
 }
 
 data = {
-  'IDToken1': 'номер_счета',
-  'IDToken2': 'пароль',
+  'IDToken1': 'РЅРѕРјРµСЂ_СЃС‡РµС‚Р°',
+  'IDToken2': 'РїР°СЂРѕР»СЊ',
   'goto': 'https://my.yota.ru/selfcare/loginSuccess',
   'org': 'customer'
 }
